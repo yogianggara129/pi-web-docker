@@ -1,0 +1,31 @@
+services:
+  pi-web:
+    build:
+      context: .
+      args:
+        PI_VERSION: "latest"
+        PI_WEB_VERSION: "latest"
+
+    image: pi-web:latest
+    container_name: pi-web
+    restart: unless-stopped
+
+    working_dir: /workspace
+
+    volumes:
+      - ./data:/root/.pi
+      - ./workspaces:/workspace
+
+    environment:
+      TZ: Asia/Jakarta
+      PI_WEB_PORT: "8504"
+      PI_WEB_HOST: "0.0.0.0"
+
+    ports:
+      - "8504:8504"
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.5"
+          memory: 768M
